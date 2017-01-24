@@ -121,7 +121,7 @@ function checkName(){
 }
 
 $("#name").focus(function(){
-  $("#name").addClass("warning");
+  $("#name").removeClass("noFirstInput");
   checkName();
 });
 $("#name").change(function(){
@@ -150,7 +150,6 @@ $("#mail").focus(function(){
 });
 
 //functions that validate the checkboxes
-$(".activities").addClass("noFirstInput");
 function checkCheckbox(){
   if($(".activities input:checked").length > 0){
     $(".activities").removeClass("noFirstInput");
@@ -208,32 +207,44 @@ $("#cvv").focus(function(){
   checkCVV();
 });
 
-//function that changes the focus after the last input fiel is
+//function that changes the focus after the last input fiel is filled out
 $("#cvv").keyup(function(){
   if($("#cvv").val().length === 3){
     $("#cvv").blur();
   }
 });
 
-//function that validates the entire form when the user
-//hovers the mouse over the submit button. if the form isn't
-//complete he can't submit.
-$("button").hover(function(){
-  if($("#name").hasClass("warning") || $("#mail").hasClass("warning") ||
-    $(".activities legend").hasClass("warning") ||
-    $(".activities legend").hasClass("noFirstImput") ||
-    $("#cc-num").hasClass("warning") || $("#zip").hasClass("warning") ||
-    $("#cvv").hasClass("warning")){
-        $("button").attr("type", "button");
+function firstInput(){
+  $("#name").addClass("noFirstInput");
+  $("#mail").addClass("noFirstInput");
+  $(".activities").addClass("noFirstInput");
 
-  }else{
+};
+
+//function that validates the entire form when the user
+//clicks the submit button. if the form isn't
+//complete he can't submit.
+$("button").click(function(event){
+  checkName();
+  checkMail();
+  checkCheckbox();
+  if($("#name").hasClass("warning") || $("#mail").hasClass("warning") ||
+  $("#mail").hasClass("noFirstImput") ||
+  $(".activities legend").hasClass("warning") ||
+  $(".activities").hasClass("noFirstImput") ||
+  $("#cc-num").hasClass("warning") || $("#zip").hasClass("warning") ||
+  $("#cvv").hasClass("warning")){
+    console.log("!!");
+    event.preventDefault();
+
+  }/*else{
     //console.log("11");
     $("button").attr("type", "submit");
-  }
+  }*/
 });
 
 
-
+firstInput();
 payment();
 jobRole();
 tShirt();
