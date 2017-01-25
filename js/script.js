@@ -242,6 +242,7 @@ $("button").click(function(event){
   $("#cc-num").hasClass("warning") || $("#zip").hasClass("warning") ||
   $("#cvv").hasClass("warning")){
     //console.log("!!");
+    $("button").prev().remove();
     event.preventDefault();
     $("button").before("<p>Please check your form input. The missing / wrong fields will be marked with red.</p>");
   }/*else{
