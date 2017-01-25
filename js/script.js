@@ -135,6 +135,7 @@ function checkMail(){
   //console.log(pattern.test(string));
   if(pattern.test(string)){
     //console.log(pattern.test(string));
+    $("#mail").removeClass("noFirstInput");
     $("#mail").removeClass("warning");
   }else{
     $("#mail").addClass("warning");
@@ -154,8 +155,10 @@ function checkCheckbox(){
   if($(".activities input:checked").length > 0){
     $(".activities").removeClass("noFirstInput");
     $(".activities legend").removeClass("warning");
+    $(".activities legend").css("color", "#184f68");
   }else{
     $(".activities legend").css("color", "red");
+    $(".activities legend").addClass("noFirstInput");
   }
 };
 
@@ -218,7 +221,6 @@ function firstInput(){
   $("#name").addClass("noFirstInput");
   $("#mail").addClass("noFirstInput");
   $(".activities").addClass("noFirstInput");
-
 };
 
 //function that validates the entire form when the user
@@ -228,15 +230,20 @@ $("button").click(function(event){
   checkName();
   checkMail();
   checkCheckbox();
+  if($("#payment").val() == "credit card"){
+    checkZip();
+    checkCC();
+    checkCVV();
+  }
   if($("#name").hasClass("warning") || $("#mail").hasClass("warning") ||
-  $("#mail").hasClass("noFirstImput") ||
+  $("#mail").hasClass("noFirstInput") ||
   $(".activities legend").hasClass("warning") ||
-  $(".activities").hasClass("noFirstImput") ||
+  $(".activities").hasClass("noFirstInput") ||
   $("#cc-num").hasClass("warning") || $("#zip").hasClass("warning") ||
   $("#cvv").hasClass("warning")){
-    console.log("!!");
+    //console.log("!!");
     event.preventDefault();
-
+    $("button").before("<p>Please check your form input. The missing / wrong fields will be marked with red.</p>");
   }/*else{
     //console.log("11");
     $("button").attr("type", "submit");
