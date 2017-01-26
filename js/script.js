@@ -1,4 +1,4 @@
-
+var counter = 0;
 //function that shows additional text field if the user selects Other Job Role.
 function jobRole(){
   $("#other-title").hide();
@@ -223,6 +223,20 @@ function firstInput(){
   $(".activities").addClass("noFirstInput");
 };
 
+//check if the other job title option is selected and correctly filled out.
+function checkJob(){
+  if($("#title").val() == "other" && $("#other-title").val().length === 0){
+    $("#other-title").addClass("warning");
+  }
+  else {
+    $("#other-title").removeClass("warning");
+  }
+};
+
+$("#other-title").keyup(function(){
+  $("#other-title").removeClass("warning");
+});
+
 //function that validates the entire form when the user
 //clicks the submit button. if the form isn't
 //complete he can't submit.
@@ -230,19 +244,24 @@ $("button").click(function(event){
   checkName();
   checkMail();
   checkCheckbox();
+  checkJob();
   if($("#payment").val() == "credit card"){
     checkZip();
     checkCC();
     checkCVV();
   }
   if($("#name").hasClass("warning") || $("#mail").hasClass("warning") ||
+  $("#other-title").hasClass("warning") ||
   $("#mail").hasClass("noFirstInput") ||
   $(".activities legend").hasClass("warning") ||
   $(".activities").hasClass("noFirstInput") ||
   $("#cc-num").hasClass("warning") || $("#zip").hasClass("warning") ||
   $("#cvv").hasClass("warning")){
-    //console.log("!!");
-    $("button").prev().remove();
+    //counter that prevents the removal of the payment info part of the form.
+    if (counter > 0){
+      $("button").prev().remove();
+    }
+    counter++;
     event.preventDefault();
     $("button").before("<p>Please check your form input. The missing / wrong fields will be marked with red.</p>");
   }/*else{
